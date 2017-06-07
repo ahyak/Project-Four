@@ -6,6 +6,7 @@ const
   bodyParser = require('body-parser'),
   cors = require('cors'),
   usersRoutes = require('./routes/users.js'),
+  postsRoutes = require('./routes/posts.js')
 
   //environment port
   port = process.env.PORT || 3001,
@@ -31,6 +32,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/users', usersRoutes)
+app.use('/api/posts', postsRoutes)
 
 app.listen(port, (err) => {
   console.log(err || `Server running on ${port}. 🤘`)

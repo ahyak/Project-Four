@@ -1,6 +1,6 @@
 const
   jwt = require('jsonwebtoken'),
-  jwtSecret = process.env.JWT_SECRET
+  jwtSecret = process.env.JWT_SECRET || 'password'
 
 const serverAuth = {
   // create a token using the jwtSecret and set a custom expiration date.

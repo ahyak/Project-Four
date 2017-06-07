@@ -8,6 +8,9 @@ const
 // find by valid email and password. create token with userdata (-p) in payload
   usersRouter.post('/login', (req, res) => {
     User.findOne({email: req.body.email}, '+password',(err, user) => {
+      console.log("************* USER *************");
+      console.log(user);
+      console.log("**************************");
       if(!user || !user.validPassword(req.body.password)) {
         return res.status(403).json({message: "invalid credentials"})
       }
