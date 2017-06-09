@@ -1,14 +1,14 @@
 import React from 'react'
 
-const Profile = (props) => {
-  let id = props.currentUser._id
-
+const Profile = () => {
   return(
     <div className="container-fluid">
-      <h1>User Profile</h1>
-      <h4>First Name: {props.currentUser.firstname}</h4>
+      <h1>Under construction!</h1>
+
+      <h2> Please come back soon!</h2>
+      {/* <h4>First Name: {props.currentUser.firstname}</h4>
       <h4>Last Name: {props.currentUser.lastname}</h4>
-      <h4>Email: {props.currentUser.email}</h4>
+      <h4>Email: {props.currentUser.email}</h4> */}
     </div>
   )
 }

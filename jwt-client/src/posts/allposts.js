@@ -1,17 +1,14 @@
 import React, {Component} from 'react'
 import clientAuth from './clientAuth.js'
 
-//required for react bootstrap to work
 var ReactBootstrap = require('react-bootstrap')
 var Button = ReactBootstrap.Button
 var Modal = ReactBootstrap.Modal
 
-class Post extends Component {
+class Newpost extends Component {
 
   state = {
     posts: [],
-    editing: '',
-    currentEditing:{title:'', body:'', image:''},
     showModal: false
   }
   componentDidMount() {
@@ -22,99 +19,46 @@ class Post extends Component {
       })
     })
   }
-  _handleInputChange(evt) {
-    //When any of the input fields are changed, we are setting the new value to that
-    var currentEditing = this.state.currentEditing
-    currentEditing[evt.target.name] = evt.target.value
-    this.setState({
-      currentEditing: currentEditing
-    })
-  }
-    _setModal(id){
-        var _currentEditing= this.state.posts.find(p => p._id === id)
-        _currentEditing = Object.assign({}, _currentEditing)
-        this.setState({
-          editing: id,
-          currentEditing: _currentEditing,
-          showModal:true
-        })
-    }
-
-  _formSubmit(evt) {
+  _addPost(evt) {
     evt.preventDefault()
     const newPost = {
       title: this.refs.title.value,
       image: this.refs.image.value,
       body: this.refs.body.value
     }
-    if (this.state.editing) {
-      console.log('Editing a new Post')
-      console.log(newPost)
-      console.log(this.state.editing)
-      clientAuth.updatePost(newPost,this.state.editing).then(res =>{
-        const postIndex = this.state.posts.findIndex((post) => {
-        return post._id === this.state.editing
-      })
+    console.log('Creating a new Post in the database')
+    clientAuth.addPost(newPost).then(res =>{
       this.setState({
         posts: [
-          ...this.state.posts.slice(0, postIndex),
           res.data.post,
-          ...this.state.posts.slice(postIndex + 1)
-        ],showModal: false,
-        editing: null,
-        currentEditing: {description: '', reps:'', dateTime: ''}
-      })
-    })
-  } else {
-      console.log('Creating a new Post in the database')
-      clientAuth.addPost(newPost).then(res =>{
-        this.setState({
-          posts: [
-            res.data.post,
-            ...this.state.posts
-          ],
-          showModal: false,
-          editing: null,
-          currentEditing: {description: '', reps:'', dateTime: ''}
-        })
-      })
-    }
-  }
-  _deletePost(id) {
-    console.log(id)
-    clientAuth.deletePost(id).then((res) => {
-      console.log(res)
-      console.log("Post Deleted!")
-      this.setState({
-        posts: this.state.posts.filter((post)=> {
-          return post._id !== id
-        })
+          ...this.state.posts
+        ],
+      showModal: false
       })
     })
   }
   openModal() {
     this.setState({
       showModal: true
-     })
+    })
   }
   closeModal() {
     this.setState({
       showModal: false
-     })
+    })
   }
   render(){
+    // console.log(this.state.posts)
     const posts = this.state.posts.map((post, i) =>{
       return (
         <div className="col-sm-6 col-md-4" key={i}>
           <div className="thumbnail">
-            <div className="crop">
-            <img src={post.image} alt=" " className="img zoom"/>
-          </div>
+            <img src={post.image} alt=" " className="zoom"/>
               <div className="caption">
                 <h3>{post.title}</h3>
                   <p>{post.body}</p>
                   <button id={post._id} className="btn btn-default" name='editPost'
-                    onClick={this._setModal.bind(this, post._id)}>Edit</button>
+                    onClick={this._setEditing.bind(this, post._id)}>Edit</button>
                   {' '}
                   <button className="btn btn-danger"
                     onClick={this._deletePost.bind(this, post._id)}>Delete</button>
@@ -124,7 +68,6 @@ class Post extends Component {
       )
     })
     var formButton
-    console.log(this.state.editing)
       if (this.state.editing) {
         formButton = <Button type='submit'>Update Listing</Button>
       } else {
@@ -133,8 +76,8 @@ class Post extends Component {
     return(
       <div className= 'container-fluid'>
         <div className='text-center page-header'>
-          <h3> Posts </h3>
-          <Button bsStyle="primary" onClick={this._setModal.bind(this, null)}>
+          <h1> Posts </h1>
+          <Button onClick={this._setEditing.bind(this)}>
             Create New Post!</Button>
 
           <Modal show={this.state.showModal} onHide={this.closeModal.bind(this)}>
@@ -173,4 +116,4 @@ class Post extends Component {
 }
 
 
-export default Post
+export default Newpost

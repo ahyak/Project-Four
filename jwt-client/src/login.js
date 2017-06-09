@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-// import {Route, Redirect} from 'react-router-dom'
 
 class Login extends Component {
+
   _handleLogin= (evt) => {
     evt.preventDefault()
     const credentials = {
@@ -10,19 +10,24 @@ class Login extends Component {
     }
     console.log(credentials)
     this.props.onLogin(credentials)
-
   }
 
   render() {
     return (
-      <div className='container'>
-        <h2>Log In</h2>
-        <form onSubmit={this._handleLogin.bind(this)}>
-          <input type='text' placeholder='Email' ref='email' />
-          <input type='password' placeholder='Password' ref='password' />
-          <button type='submit'>Log In</button>
-        </form>
+      <div className="container-fluid">
+          <form onSubmit={this._handleLogin.bind(this)}>
+            <div className='form-group'>
+              <input type='text' className= "form-control" placeholder='Email' ref='email' />
+            </div>
+            <div className='form-group'>
+              <input type='password' className= "form-control" placeholder='Password' ref='password' />
+            </div>
+            <div className='form-group'>
+              <button type='submit'>Log In</button>
+            </div>
+          </form>
       </div>
+
     )
   }
 }

@@ -10,7 +10,6 @@ const clientAuth = {
       axios.defaults.headers.common['x-access-token'] = localStorage.getItem('token')
     }
   },
-
   signUp: (userCredentials) =>{
     return axios({
       url: '/api/users',
@@ -18,7 +17,6 @@ const clientAuth = {
       data: userCredentials
     })
   },
-
   logIn: (userCredentials) => {
     return axios({
       url: '/api/users/login',
@@ -66,10 +64,17 @@ const clientAuth = {
       method: 'delete'
     })
   },
-  toggleCompleted:(id) => {
+  updatePost: (updatedPost,id) => {
     return axios({
       url: `/api/posts/${id}`,
-      method: 'patch'
+      method: 'patch',
+      data: updatedPost
+    })
+  },
+  getAllPosts: () => {
+  return axios({
+    url: '/api/posts/all',
+    method: 'get'
     })
   }
 }

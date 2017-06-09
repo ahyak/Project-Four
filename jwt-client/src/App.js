@@ -1,15 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import clientAuth from './clientAuth'
-import {
-  BrowserRouter,
-  Route,
-  Switch,
-  Redirect
-} from 'react-router-dom'
 
 //App components
-import Header from './header'
 import Signup from './signup'
 import Login from './login'
 import Home from './home'
@@ -18,11 +11,12 @@ import ImageUploader from './imageupload'
 import Post from './post'
 
 class App extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       currentUser: null,
       loggedIn: false,
+      view: 'home'
     }
   }
   componentDidMount() {
@@ -30,32 +24,42 @@ class App extends Component {
     this.setState({
       currentUser: currentUser,
       loggedIn: !!currentUser,
+      view: currentUser ? 'posts' : 'home'
     })
   }
 
-  _signUp(newUser) {
+  _signup(newUser) {
     clientAuth.signUp(newUser).then((data)=>{
       console.log(data);
-      // this.setState({
-      //   view: 'login'
-      // })
+      this.setState({
+        currentUser: data,
+        loggedIn: true,
+        view: 'posts'
+      })
     })
   }
 
-  _logIn(credentials) {
+  _login(credentials) {
     clientAuth.logIn(credentials).then((user) =>{
       console.log(user)
       this.setState({
         currentUser: user,
         loggedIn: true,
+        view: 'posts'
       })
     })
+  }
+
+  _banana(credentials) {
+    console.log("BANANANANANANA...")
+    console.log(credentials)
   }
   _logOut() {
     clientAuth.logOut().then(message => {
       this.setState({
         currentUser: null,
         loggedIn: false,
+        view: 'home'
       })
     })
   }
@@ -63,33 +67,50 @@ class App extends Component {
     evt.preventDefault()
     const view = evt.target.name
     this.setState({
-    view: view
+      view: view
     })
   }
 
   render() {
     return (
-      <BrowserRouter loggedIn={this.state.loggedIn}
-      currentUser={this.state.currentUser}>
         <div className="container-fluid">
-            <Header/>
-            <Switch>
-              <Route exact path="/" component= {()=> <Home loggedIn={this.state.loggedIn}
-              currentUser={this.state.currentUser}/> }/>
-              <Route path="/signup" component={() => <Signup onSignup={this._signUp.bind(this)}/> }/>
-              <Route path="/login/:id" component= {()=> <Profile currentUser={clientAuth.getCurrentUser()} />}/>
-              <Route exact path="/login" component= {() => <Login onLogin={this._logIn.bind(this)}/> }/>
-              <Route path='/logout' onClick={this._logOut.bind(this)}/>
-              <Route exact path="/post" component= {() => <Post/>}/>
-              {/* <Redirect from='/logout' to='/'/>
-              <Route path='/' component={Home}/> */}
-            </Switch>
-            <ImageUploader/>
+          <div className='text-center page-header'>
+            <ul className="nav navbar-nav">
+              <li><button className="btn btn-default" name='home' onClick={this._setView.bind(this)}>Home</button></li>
+
+            {/* <h2>{this.state.loggedIn ? this.state.currentUser.firstname : 'Not Logged In'}</h2> */}
+
+
+              {!this.state.loggedIn && (
+                <li><button type="button" className="btn btn-primary" name='signup' onClick={this._setView.bind(this)}>Sign Up</button></li>
+              )}
+
+              {!this.state.loggedIn && (
+                <li><button name='login' className="btn btn-default" onClick={this._setView.bind(this)}>Log In</button></li>
+              )}
+              {this.state.loggedIn && (
+                <li><button className="btn btn-default" onClick={this._logOut.bind(this)}>Log Out</button></li>
+              )}
+              
+              {this.state.loggedIn && (
+                <li><button className="btn btn-default" name='profile' onClick={this._setView.bind(this)}>Profile</button></li>
+              )}
+          </ul>
+
+
+          {
+          {
+            home: <Home/>,
+            login: <Login onLogin={this._login.bind(this)}/>,
+            signup: <Signup onSignup={this._signup.bind(this)}/>,
+            posts: <Post />,
+            profile: <Profile/>
+            // allposts: <AllPosts />
+          }[this.state.view]}
+          </div>
         </div>
-      </BrowserRouter>
-    );
+    )
   }
 }
-
 
 export default App;
