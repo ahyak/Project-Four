@@ -30,7 +30,7 @@ class App extends Component {
 
   _signup(newUser) {
     clientAuth.signUp(newUser).then((data)=>{
-      console.log(data);
+      // console.log(data);
       this.setState({
         currentUser: data,
         loggedIn: true,
@@ -41,7 +41,7 @@ class App extends Component {
 
   _login(credentials) {
     clientAuth.logIn(credentials).then((user) =>{
-      console.log(user)
+      // console.log(user)
       this.setState({
         currentUser: user,
         loggedIn: true,
@@ -73,8 +73,8 @@ class App extends Component {
 
   render() {
     return (
-        <div className="container-fluid">
-          <div className='text-center page-header'>
+        <div className= 'container'>
+          <div className= 'form-group'>
             <ul className="nav navbar-nav">
               <li><button className="btn btn-default" name='home' onClick={this._setView.bind(this)}>Home</button></li>
 
@@ -82,7 +82,7 @@ class App extends Component {
 
 
               {!this.state.loggedIn && (
-                <li><button type="button" className="btn btn-primary" name='signup' onClick={this._setView.bind(this)}>Sign Up</button></li>
+                <li><button type="button" className="btn btn-default" name='signup' onClick={this._setView.bind(this)}>Sign Up</button></li>
               )}
 
               {!this.state.loggedIn && (
@@ -91,11 +91,18 @@ class App extends Component {
               {this.state.loggedIn && (
                 <li><button className="btn btn-default" onClick={this._logOut.bind(this)}>Log Out</button></li>
               )}
-              
+
+              {this.state.loggedIn && (
+                <li><button className="btn btn-default" name='posts' onClick={this._setView.bind(this)}>Posts</button></li>
+              )}
+
               {this.state.loggedIn && (
                 <li><button className="btn btn-default" name='profile' onClick={this._setView.bind(this)}>Profile</button></li>
               )}
+
+
           </ul>
+        </div>
 
 
           {
@@ -107,7 +114,8 @@ class App extends Component {
             profile: <Profile/>
             // allposts: <AllPosts />
           }[this.state.view]}
-          </div>
+
+
         </div>
     )
   }

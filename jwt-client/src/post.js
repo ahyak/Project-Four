@@ -136,7 +136,7 @@ class Post extends Component {
           <h3> Posts </h3>
           <Button bsStyle="primary" onClick={this._setModal.bind(this, null)}>
             Create New Post!</Button>
-
+          </div>
           <Modal show={this.state.showModal} onHide={this.closeModal.bind(this)}>
             <Modal.Header closeButton>
               <Modal.Title>What are you selling today?</Modal.Title>
@@ -161,13 +161,13 @@ class Post extends Component {
               </div>
             </form>
           </Modal.Body>
-          </Modal>
-        </div>
+        </Modal>
+        <div className="container">
           <div className="row">
             {posts}
           </div>
-
-      </div>
+        </div>
+    </div>
     )
   }
 }

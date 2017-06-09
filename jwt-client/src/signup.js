@@ -16,15 +16,32 @@ class Signup extends Component {
   render() {
     return (
       <div className='container'>
-        <h2>Sign Up</h2>
-        <form onSubmit={this._handleSignup.bind(this)}>
-          <input type='text' placeholder='First Name' ref='firstname' />
-          <input type='text' placeholder='Last Name' ref='lastname' />
-          <input type='text' placeholder='Email' ref='email' />
-          <input type='password' placeholder='Password' ref='password' />
-          <button type='submit'>Create Account</button>
-        </form>
-      </div>
+          <div className='text-center page-header'>
+            <h3> Signup </h3>
+          </div>
+          <form onSubmit={this._handleSignup.bind(this)}>
+              <div className='form-group'>
+                <label>First Name:</label>
+                <input type='text' className= "form-control" placeholder='First Name' ref='firstname' />
+              </div>
+              <div className='form-group'>
+                <label>Last Name:</label>
+                <input type='text' className= "form-control" placeholder='Last Name' ref='lastname' />
+              </div>
+              <div className='form-group'>
+                <label>Email:</label>
+                <input type='text' className= "form-control" placeholder='Email' ref='email' />
+              </div>
+              <div className='form-group'>
+                <label>Password:</label>
+                <input type='password' className= "form-control" placeholder='Password' ref='password' />
+              </div>
+              <div className='form-group'>
+                <button className= "btn btn-primary" type='submit'>Create Account</button>
+              </div>
+          </form>
+        </div>
+
     )
   }
 }

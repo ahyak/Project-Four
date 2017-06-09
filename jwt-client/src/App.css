@@ -22,12 +22,12 @@ cursor: zoom-in;
 
 .crop {
  height: 300px;
- width: 390px;
+ width: 380px;
  overflow: hidden;
 }
 .crop img {
  height: auto;
- width: 370px;
+ width: 340px;
  float:left
 }
 

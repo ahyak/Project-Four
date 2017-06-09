@@ -32,13 +32,12 @@ class Home extends Component {
     })
     return(
       <div className= 'container-fluid'>
-        <h2>Welcome to Moving Out!</h2>
           <div className='text-center page-header'>
-            <h1> All Available Posts </h1>
+            <h2>Welcome to Moving Out!</h2>
+          </div>
             <div className="row">
               {allPosts}
             </div>
-        </div>
     </div>
     )
   }
